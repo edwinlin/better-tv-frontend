@@ -1,12 +1,12 @@
 // variables ----------------------------->
-const todayFullDate = toISOLocal(new Date());
-const sundayDate = toISOLocal(getSunday(new Date()));
-const mondayDate = toISOLocal(getMonday(new Date()));
-const tuesdayDate = toISOLocal(getTuesday(new Date()));
-const wednesdayDate = toISOLocal(getWednesday(new Date()));
-const thursdayDate = toISOLocal(getThursday(new Date()));
-const fridayDate = toISOLocal(getFriday(new Date()));
-const saturdayDate = toISOLocal(getSaturday(new Date()));
+const todayFullDate = DayOfWeek.toISOLocal(new Date());
+const sundayDate = DayOfWeek.toISOLocal(DayOfWeek.getSunday(new Date()));
+const mondayDate = DayOfWeek.toISOLocal(DayOfWeek.getMonday(new Date()));
+const tuesdayDate = DayOfWeek.toISOLocal(DayOfWeek.getTuesday(new Date()));
+const wednesdayDate = DayOfWeek.toISOLocal(DayOfWeek.getWednesday(new Date()));
+const thursdayDate = DayOfWeek.toISOLocal(DayOfWeek.getThursday(new Date()));
+const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
+const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
 allShowsArray = []
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
 
@@ -83,59 +83,6 @@ Adapter.getSaturdayShows().then(json=>{
 
 
 // functions ----------------------------->
-
-function getSunday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:0);
-  return new Date(d.setDate(diff));
-}
-function getMonday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:1);
-  return new Date(d.setDate(diff));
-}
-function getTuesday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:2);
-  return new Date(d.setDate(diff));
-}
-function getWednesday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:3);
-  return new Date(d.setDate(diff));
-}
-function getThursday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:4);
-  return new Date(d.setDate(diff));
-}
-function getFriday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:5);
-  return new Date(d.setDate(diff));
-}
-function getSaturday(d) {
-  d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:6);
-  return new Date(d.setDate(diff));
-}
-
-function toISOLocal(d) {
-  var z = n => (n<10? '0':'')+n;
-  var off = d.getTimezoneOffset();
-  var sign = off < 0? '+' : '-';
-  off = Math.abs(off);
-
-  return d.getFullYear() + '-' + z(d.getMonth()+1) + '-' +
-         z(d.getDate())
-}
 // Date functions ^
 
 // __________________________________
