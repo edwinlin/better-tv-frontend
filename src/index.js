@@ -9,6 +9,7 @@ const fridayDate = toISOLocal(getFriday(new Date()));
 const saturdayDate = toISOLocal(getSaturday(new Date()));
 allShowsArray = []
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
+
 const listGroupUl = document.getElementById('list-group');
 listGroupUl.addEventListener('click', handleItemClick);
 const listGroupUl2 = document.getElementById('list-group2');
@@ -30,49 +31,49 @@ const getShowDetailsURL = `http://api.tvmaze.com/shows`;
 
 // code ----------------------------->
 
-getSundayShows().then(json=>{
+Adapter.getSundayShows().then(json=>{
 	sundayShowsArray = json
 	allShowsArray.push(sundayShowsArray)
 	json.forEach(show=>{
 		listGroupUl.innerHTML += createShowNameItem(show)
 	})
 }) //end getSundayShows
-getMondayShows().then(json=>{
+Adapter.getMondayShows().then(json=>{
 	mondayShowsArray = json
 	allShowsArray.push(mondayShowsArray)
 	json.forEach(show=>{
 		listGroupUl2.innerHTML += createShowNameItem(show)
 	})
 }) //end getMondayShows
-getTuesdayShows().then(json=>{
+Adapter.getTuesdayShows().then(json=>{
 	tuesdayShowsArray = json
 	allShowsArray.push(tuesdayShowsArray)
 	json.forEach(show=>{
 		listGroupUl3.innerHTML += createShowNameItem(show)
 	})
 }) //end getTuesdayShows
-getWednesdayShows().then(json=>{
+Adapter.getWednesdayShows().then(json=>{
 	wednesdayShowsArray = json
 	allShowsArray.push(wednesdayShowsArray)
 	json.forEach(show=>{
 		listGroupUl4.innerHTML += createShowNameItem(show)
 	})
 }) //end getWednesdayShows
-getThursdayShows().then(json=>{
+Adapter.getThursdayShows().then(json=>{
 	thursdayShowsArray = json
 	allShowsArray.push(thursdayShowsArray)
 	json.forEach(show=>{
 		listGroupUl5.innerHTML += createShowNameItem(show)
 	})
 }) //end getThursdayShows
-getFridayShows().then(json=>{
+Adapter.getFridayShows().then(json=>{
 	fridayShowsArray = json
 	allShowsArray.push(fridayShowsArray)
 	json.forEach(show=>{
 		listGroupUl6.innerHTML += createShowNameItem(show)
 	})
 }) //end getFridayShows
-getSaturdayShows().then(json=>{
+Adapter.getSaturdayShows().then(json=>{
 	saturdayShowsArray = json
 	allShowsArray.push(saturdayShowsArray)
 	json.forEach(show=>{
