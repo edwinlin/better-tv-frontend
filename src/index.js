@@ -187,10 +187,10 @@ function createShowDetailsItem(showData){
 	// debugger
 	const imageToUse = showInfo.show.image
 	const placeholder = 'https://www.l-nutra.com/wp-content/uploads/2018/07/placeholder.png'
-	debugger
+	// debugger
 	if(imageToUse != null){
 		return `<h1 data-id=${showData.dataset.id}>${showInfo.show.name}</h1>
-				<img src=${imageToUse}>
+				<img src=${imageToUse.original}>
 				<h3> - Season ${showInfo.season} - Episode ${showInfo.number}</h3>
 
 				<button id="edit-show" class="btn btn-info">
