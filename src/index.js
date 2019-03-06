@@ -7,7 +7,7 @@ const wednesdayDate = DayOfWeek.toISOLocal(DayOfWeek.getWednesday(new Date()));
 const thursdayDate = DayOfWeek.toISOLocal(DayOfWeek.getThursday(new Date()));
 const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
 const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
-
+tempFlag = "undefined"
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
 
 const listGroupUl = document.getElementById('sunday');
@@ -24,6 +24,8 @@ const listGroupUl6 = document.getElementById('friday');
 listGroupUl6.addEventListener('click', handleItemClick);
 const listGroupUl7 = document.getElementById('saturday');
 listGroupUl7.addEventListener('click', handleItemClick);
+const dayHeaderRow = document.querySelector('.row.seven-cols');
+dayHeaderRow.addEventListener('click', handleColumnClick);
 
 const showDetailDiv = document.getElementById('show-detail');
 showDetailDiv.addEventListener('click', handleDetailPatch);
@@ -37,7 +39,8 @@ Adapter.getSundayShows().then(json=>{
 	json.forEach(show=>{
 		// debugger
 		let showObj = new Show(show)
-		listGroupUl.innerHTML += showObj.renderNameItem()
+		listGroupUl.innerHTML += showObj.renderNameItem(listGroupUl.parentElement.id)
+		// debugger
 		// listGroupUl.innerHTML += createShowNameItem(show)
 	})
 }) //end getSundayShows
@@ -46,7 +49,7 @@ Adapter.getMondayShows().then(json=>{
 	allShows.monday = mondayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl2.innerHTML += showObj.renderNameItem()
+		listGroupUl2.innerHTML += showObj.renderNameItem(listGroupUl2.parentElement.id)
 		// listGroupUl2.innerHTML += createShowNameItem(show)
 	})
 }) //end getMondayShows
@@ -55,7 +58,7 @@ Adapter.getTuesdayShows().then(json=>{
 	allShows.tuesday = tuesdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl3.innerHTML += showObj.renderNameItem()
+		listGroupUl3.innerHTML += showObj.renderNameItem(listGroupUl3.parentElement.id)
 		// listGroupUl3.innerHTML += createShowNameItem(show)
 	})
 }) //end getTuesdayShows
@@ -64,7 +67,7 @@ Adapter.getWednesdayShows().then(json=>{
 	allShows.wednesday = wednesdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl4.innerHTML += showObj.renderNameItem()
+		listGroupUl4.innerHTML += showObj.renderNameItem(listGroupUl4.parentElement.id)
 		// listGroupUl4.innerHTML += createShowNameItem(show)
 	})
 }) //end getWednesdayShows
@@ -73,7 +76,7 @@ Adapter.getThursdayShows().then(json=>{
 	allShows.thursday = thursdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl5.innerHTML += showObj.renderNameItem()
+		listGroupUl5.innerHTML += showObj.renderNameItem(listGroupUl5.parentElement.id)
 		// listGroupUl5.innerHTML += createShowNameItem(show)
 	})
 }) //end getThursdayShows
@@ -82,7 +85,7 @@ Adapter.getFridayShows().then(json=>{
 	allShows.friday = fridayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl6.innerHTML += showObj.renderNameItem()
+		listGroupUl6.innerHTML += showObj.renderNameItem(listGroupUl6.parentElement.id)
 		// listGroupUl6.innerHTML += createShowNameItem(show)
 	})
 }) //end getFridayShows
@@ -91,7 +94,7 @@ Adapter.getSaturdayShows().then(json=>{
 	allShows.saturday = saturdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
-		listGroupUl7.innerHTML += showObj.renderNameItem()
+		listGroupUl7.innerHTML += showObj.renderNameItem(listGroupUl7.parentElement.id)
 		// listGroupUl7.innerHTML += createShowNameItem(show)
 	})
 }) //end getSaturdayShows
@@ -129,49 +132,80 @@ function handleDetailPatch(event){
 	//console.log(event.target.parentElement.querySelector('h1').dataset.id)
 }
 
-function handleItemClick(event){
-	event.preventDefault();
+function handleColumnClick(event){
 	// debugger
-	if(listGroupUl2.style.display == "none"){
-		showDetailDiv.parentElement.style.display = "block"
-		const showObj = Show.all.find(show=>show.id==event.target.id)
-		showDetailDiv.innerHTML = showObj.renderShowDetails()
-	}else if(event.target.parentElement.id == 'sunday'){
-		listGroupUl2.style.display = "none"
-		listGroupUl3.style.display = "none"
-		listGroupUl4.style.display = "none"
-		listGroupUl5.style.display = "none"
-		listGroupUl6.style.display = "none"
-		listGroupUl7.style.display = "none"
-		listGroupUl.classList.add("larger-list")
-		showDetailDiv.parentElement.style.display = "block"
-
-		const showObj = Show.all.find(show=>show.id==event.target.id)
-		showDetailDiv.innerHTML = showObj.renderShowDetails()
-	}else{
-		listGroupUl2.style.display = "none"
-		listGroupUl3.style.display = "none"
-		listGroupUl4.style.display = "none"
-		listGroupUl5.style.display = "none"
-		listGroupUl6.style.display = "none"
-		listGroupUl7.style.display = "none"
-		listGroupUl.innerHTML = ""
-		listGroupUl.classList.add("larger-list")
-		showDetailDiv.parentElement.style.display = "block"
-		// listGroupUl.classList.remove("col-md-1")
-		// console.log(event.target.parentElement)
-		allShows[event.target.parentElement.id].forEach(show=>{
-			let showObj = new Show(show)
-			listGroupUl.innerHTML += showObj.renderNameItem()
-		})
-			const showObj = Show.all.find(show=>show.id==event.target.id)
-			showDetailDiv.innerHTML = showObj.renderShowDetails()
+	event.preventDefault();
+		if((listGroupUl2.style.display != "none")&&(tempFlag == "undefined")){
+		tempFlag = event.target.id
+		dayHeaderRow.children[tempFlag].style.backgroundColor = "gray"
+				removeMondayToSaturdayLists()
+				displayLargerList(event.target.dataset.dayId)
+				displayDetails(allShows[event.target.dataset.dayId][0].id)
 	}
 
+	if((["0","1","2","3","4","5","6"].includes(event.target.id))&&(tempFlag!="undefined")&&(event.target.id != tempFlag)){
+		dayHeaderRow.children[tempFlag].style.backgroundColor = ""
+		tempFlag = event.target.id
+		dayHeaderRow.children[tempFlag].style.backgroundColor = "gray"
+
+		displayLargerList(event.target.dataset.dayId)
+	}
 
 }
 
+function handleItemClick(event){
+	event.preventDefault();
+	if(event.target.dataset.indexId != "undefined"){
+		tempFlag = event.target.dataset.indexId
+	}
+	if(listGroupUl2.style.display == "none"){
+		showDetailDiv.parentElement.style.display = "block"
+		displayDetails(event.target.id)
+	}else if(event.target.parentElement.id == 'sunday'){
+		removeMondayToSaturdayLists()
+		displayDetails(event.target.id)
+		highlightDayOfWeekTab(event)
+	}else{
+		removeMondayToSaturdayLists()
+		displayLargerList(event.target.parentElement.id)
+		displayDetails(event.target.id)
+		highlightDayOfWeekTab(event)
+	}
+}
 
+function displayDetails(targetId){
+	const showObj = Show.all.find(show=>show.id==targetId)
+	showDetailDiv.innerHTML = showObj.renderShowDetails()
+}
+
+function displayLargerList(targetId){
+		listGroupUl.innerHTML = ""
+		allShows[targetId].forEach(show=>{
+			let showObj = new Show(show)
+			listGroupUl.innerHTML += showObj.renderNameItem()
+		})
+}
+
+function highlightDayOfWeekTab(event){
+	event.target.parentElement.parentElement.style.backgroundColor = "gray"
+	// const divBar = document.createElement('div')
+	// debugger
+	// divBar.style.width = "100%"
+	// divBar.style.position = "absolute"
+	// divBar.style.backgroundColor = "gray"
+	// event.target.parentElement.append(divBar)
+}
+
+function removeMondayToSaturdayLists(){
+		listGroupUl2.style.display = "none"
+		listGroupUl3.style.display = "none"
+		listGroupUl4.style.display = "none"
+		listGroupUl5.style.display = "none"
+		listGroupUl6.style.display = "none"
+		listGroupUl7.style.display = "none"
+		listGroupUl.classList.add("larger-list")
+		showDetailDiv.parentElement.style.display = "block"
+}
 
 
 
