@@ -13,9 +13,8 @@ class Show{
 		Show.all.push(this)
 	}
 
-    renderNameItem(){
-	// debugger
-	return `<li class="list-group-item" id=${this.id} data-id=${this.show.id}>${this.show.name}.s${this.season}.e${this.number}</li>`
+    renderNameItem(indexId){
+		return `<li class="list-group-item" id=${this.id} data-id=${this.show.id} data-index-id=${indexId}>${this.show.name}.s${this.season}.e${this.number}</li>`
 	}
 
 

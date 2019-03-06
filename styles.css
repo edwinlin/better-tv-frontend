@@ -24,7 +24,7 @@
 }
 
 .list-group{
-  max-height: 500px;
+  max-height: 610px;
   overflow:scroll;
 }
 
@@ -49,89 +49,23 @@
 
 }
 
-@media (min-width: 768-951px){
+@media (min-width: 768-991px){
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1  {
     width: 100%;
     *width: 100%;
 
-    position: relative;
-    min-height: 1px;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 0px;
-}
-
-  .larger-list{
-    min-width: 300px;
-    position: relative;
-    min-height: 1px;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 0px;
-}
-#sunday{
-  padding-left:15px;
-}
-
-#saturday{
-  padding-right:15px;
-}
-
-.list-group{
-  max-height: 500px;
-  overflow:scroll;
-}
-
-.col-md-8{
-  position: relative;
-  margin-left:300px;
-}
-
-#bar{
-  background-color: gray;
-  width: all;
-}
+  }
 
 }
 
-@media (min-width: 952px) {
+@media (min-width: 992px) {
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
   .seven-cols .col-lg-1 {
     width: 14.285714285714285714285714285714%;
     *width: 14.285714285714285714285714285714%;
   }
-  .larger-list{
-    min-width: 300px;
-    position: absolute;
-    min-height: 1px;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 0px;
-}
-#sunday{
-  padding-left:15px;
-}
-
-#saturday{
-  padding-right:15px;
-}
-
-.list-group{
-  max-height: 500px;
-  overflow:scroll;
-}
-
-.col-md-8{
-  position: relative;
-  margin-left:300px;
-}
-
-#bar{
-  background-color: gray;
-  width: all;
-}
 
 }
