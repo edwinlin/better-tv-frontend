@@ -221,15 +221,15 @@ function handleLogin(event) {
 
 	if (target.value === 'Login') {
 		logInUser(username);
-		console.log("adsda")
-		// document.querySelector('#container').remove();
+		console.log(username)
+		document.querySelector('#container').remove();
 	}
 }
 
 function logInUser(username) {
 	return fetch('http://localhost:3000/users', {
 		method: 'POST',
-		header: {
+		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({name: username}) 
