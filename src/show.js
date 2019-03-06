@@ -19,7 +19,7 @@ class Show{
 	}
 
 
-	renderShowDetails(showData){
+	renderShowDetails(){
 		const imageToUse = this.show.image
 		const placeholder = 'https://www.l-nutra.com/wp-content/uploads/2018/07/placeholder.png'
 		if(imageToUse != null){

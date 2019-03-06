@@ -8,33 +8,32 @@ const thursdayDate = DayOfWeek.toISOLocal(DayOfWeek.getThursday(new Date()));
 const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
 const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
 
-allShowsArray = []
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
 
-const listGroupUl = document.getElementById('list-group');
+const listGroupUl = document.getElementById('sunday');
 listGroupUl.addEventListener('click', handleItemClick);
-const listGroupUl2 = document.getElementById('list-group2');
+const listGroupUl2 = document.getElementById('monday');
 listGroupUl2.addEventListener('click', handleItemClick);
-const listGroupUl3 = document.getElementById('list-group3');
+const listGroupUl3 = document.getElementById('tuesday');
 listGroupUl3.addEventListener('click', handleItemClick);
-const listGroupUl4 = document.getElementById('list-group4');
+const listGroupUl4 = document.getElementById('wednesday');
 listGroupUl4.addEventListener('click', handleItemClick);
-const listGroupUl5 = document.getElementById('list-group5');
+const listGroupUl5 = document.getElementById('thursday');
 listGroupUl5.addEventListener('click', handleItemClick);
-const listGroupUl6 = document.getElementById('list-group6');
+const listGroupUl6 = document.getElementById('friday');
 listGroupUl6.addEventListener('click', handleItemClick);
-const listGroupUl7 = document.getElementById('list-group7');
+const listGroupUl7 = document.getElementById('saturday');
 listGroupUl7.addEventListener('click', handleItemClick);
 
 const showDetailDiv = document.getElementById('show-detail');
 showDetailDiv.addEventListener('click', handleDetailPatch);
 // const getShowDetailsURL = `http://api.tvmaze.com/shows`;
-
+allShows = {}
 // code ----------------------------->
 
 Adapter.getSundayShows().then(json=>{
 	sundayShowsArray = json
-	allShowsArray.push(sundayShowsArray)
+	allShows.sunday = sundayShowsArray
 	json.forEach(show=>{
 		// debugger
 		let showObj = new Show(show)
@@ -44,7 +43,7 @@ Adapter.getSundayShows().then(json=>{
 }) //end getSundayShows
 Adapter.getMondayShows().then(json=>{
 	mondayShowsArray = json
-	allShowsArray.push(mondayShowsArray)
+	allShows.monday = mondayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl2.innerHTML += showObj.renderNameItem()
@@ -53,7 +52,7 @@ Adapter.getMondayShows().then(json=>{
 }) //end getMondayShows
 Adapter.getTuesdayShows().then(json=>{
 	tuesdayShowsArray = json
-	allShowsArray.push(tuesdayShowsArray)
+	allShows.tuesday = tuesdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl3.innerHTML += showObj.renderNameItem()
@@ -62,7 +61,7 @@ Adapter.getTuesdayShows().then(json=>{
 }) //end getTuesdayShows
 Adapter.getWednesdayShows().then(json=>{
 	wednesdayShowsArray = json
-	allShowsArray.push(wednesdayShowsArray)
+	allShows.wednesday = wednesdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl4.innerHTML += showObj.renderNameItem()
@@ -71,7 +70,7 @@ Adapter.getWednesdayShows().then(json=>{
 }) //end getWednesdayShows
 Adapter.getThursdayShows().then(json=>{
 	thursdayShowsArray = json
-	allShowsArray.push(thursdayShowsArray)
+	allShows.thursday = thursdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl5.innerHTML += showObj.renderNameItem()
@@ -80,7 +79,7 @@ Adapter.getThursdayShows().then(json=>{
 }) //end getThursdayShows
 Adapter.getFridayShows().then(json=>{
 	fridayShowsArray = json
-	allShowsArray.push(fridayShowsArray)
+	allShows.friday = fridayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl6.innerHTML += showObj.renderNameItem()
@@ -89,7 +88,7 @@ Adapter.getFridayShows().then(json=>{
 }) //end getFridayShows
 Adapter.getSaturdayShows().then(json=>{
 	saturdayShowsArray = json
-	allShowsArray.push(saturdayShowsArray)
+	allShows.saturday = saturdayShowsArray
 	json.forEach(show=>{
 		let showObj = new Show(show)
 		listGroupUl7.innerHTML += showObj.renderNameItem()
@@ -131,9 +130,45 @@ function handleDetailPatch(event){
 }
 
 function handleItemClick(event){
-	const showObj = Show.all.find(show=>show.id==event.target.id)
+	event.preventDefault();
+	// debugger
+	if(listGroupUl2.style.display == "none"){
+		showDetailDiv.parentElement.style.display = "block"
+		const showObj = Show.all.find(show=>show.id==event.target.id)
+		showDetailDiv.innerHTML = showObj.renderShowDetails()
+	}else if(event.target.parentElement.id == 'sunday'){
+		listGroupUl2.style.display = "none"
+		listGroupUl3.style.display = "none"
+		listGroupUl4.style.display = "none"
+		listGroupUl5.style.display = "none"
+		listGroupUl6.style.display = "none"
+		listGroupUl7.style.display = "none"
+		listGroupUl.classList.add("larger-list")
+		showDetailDiv.parentElement.style.display = "block"
 
-	showDetailDiv.innerHTML = showObj.renderShowDetails(event.target)
+		const showObj = Show.all.find(show=>show.id==event.target.id)
+		showDetailDiv.innerHTML = showObj.renderShowDetails()
+	}else{
+		listGroupUl2.style.display = "none"
+		listGroupUl3.style.display = "none"
+		listGroupUl4.style.display = "none"
+		listGroupUl5.style.display = "none"
+		listGroupUl6.style.display = "none"
+		listGroupUl7.style.display = "none"
+		listGroupUl.innerHTML = ""
+		listGroupUl.classList.add("larger-list")
+		showDetailDiv.parentElement.style.display = "block"
+		// listGroupUl.classList.remove("col-md-1")
+		// console.log(event.target.parentElement)
+		allShows[event.target.parentElement.id].forEach(show=>{
+			let showObj = new Show(show)
+			listGroupUl.innerHTML += showObj.renderNameItem()
+		})
+			const showObj = Show.all.find(show=>show.id==event.target.id)
+			showDetailDiv.innerHTML = showObj.renderShowDetails()
+	}
+
+
 }
 
 
