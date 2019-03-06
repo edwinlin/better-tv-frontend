@@ -36,49 +36,64 @@ Adapter.getSundayShows().then(json=>{
 	sundayShowsArray = json
 	allShowsArray.push(sundayShowsArray)
 	json.forEach(show=>{
-		listGroupUl.innerHTML += createShowNameItem(show)
+		// debugger
+		let showObj = new Show(show)
+		listGroupUl.innerHTML += showObj.renderNameItem()
+		// listGroupUl.innerHTML += createShowNameItem(show)
 	})
 }) //end getSundayShows
 Adapter.getMondayShows().then(json=>{
 	mondayShowsArray = json
 	allShowsArray.push(mondayShowsArray)
 	json.forEach(show=>{
-		listGroupUl2.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl2.innerHTML += showObj.renderNameItem()
+		// listGroupUl2.innerHTML += createShowNameItem(show)
 	})
 }) //end getMondayShows
 Adapter.getTuesdayShows().then(json=>{
 	tuesdayShowsArray = json
 	allShowsArray.push(tuesdayShowsArray)
 	json.forEach(show=>{
-		listGroupUl3.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl3.innerHTML += showObj.renderNameItem()
+		// listGroupUl3.innerHTML += createShowNameItem(show)
 	})
 }) //end getTuesdayShows
 Adapter.getWednesdayShows().then(json=>{
 	wednesdayShowsArray = json
 	allShowsArray.push(wednesdayShowsArray)
 	json.forEach(show=>{
-		listGroupUl4.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl4.innerHTML += showObj.renderNameItem()
+		// listGroupUl4.innerHTML += createShowNameItem(show)
 	})
 }) //end getWednesdayShows
 Adapter.getThursdayShows().then(json=>{
 	thursdayShowsArray = json
 	allShowsArray.push(thursdayShowsArray)
 	json.forEach(show=>{
-		listGroupUl5.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl5.innerHTML += showObj.renderNameItem()
+		// listGroupUl5.innerHTML += createShowNameItem(show)
 	})
 }) //end getThursdayShows
 Adapter.getFridayShows().then(json=>{
 	fridayShowsArray = json
 	allShowsArray.push(fridayShowsArray)
 	json.forEach(show=>{
-		listGroupUl6.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl6.innerHTML += showObj.renderNameItem()
+		// listGroupUl6.innerHTML += createShowNameItem(show)
 	})
 }) //end getFridayShows
 Adapter.getSaturdayShows().then(json=>{
 	saturdayShowsArray = json
 	allShowsArray.push(saturdayShowsArray)
 	json.forEach(show=>{
-		listGroupUl7.innerHTML += createShowNameItem(show)
+		let showObj = new Show(show)
+		listGroupUl7.innerHTML += showObj.renderNameItem()
+		// listGroupUl7.innerHTML += createShowNameItem(show)
 	})
 }) //end getSaturdayShows
 
@@ -116,51 +131,12 @@ function handleDetailPatch(event){
 }
 
 function handleItemClick(event){
-// debugger 
+	const showObj = Show.all.find(show=>show.id==event.target.id)
 
-
-	// if(event.target == )
-	showDetailDiv.innerHTML = createShowDetailsItem(event.target)
+	showDetailDiv.innerHTML = showObj.renderShowDetails(event.target)
 }
 
-function createShowDetailsItem(showData){
-	// debugger
-	console.log(showData)
-	// console.log(event.target)
-// fetch(`${getShowDetailsURL}/${showData.dataset.id}`).then(resp=>resp.json()).then(json=>{
-// 	console.log(json)
-// })
-	const showInfo = allShowsArray.flat().find(show=>show.id==showData.id)
-	// debugger
-	const imageToUse = showInfo.show.image
-	const placeholder = 'https://www.l-nutra.com/wp-content/uploads/2018/07/placeholder.png'
-	// debugger
-	if(imageToUse != null){
-		return `<h1 data-id=${showData.dataset.id}>${showInfo.show.name}</h1>
-				<img src=${imageToUse.original}>
-				<h3> - Season ${showInfo.season} - Episode ${showInfo.number}</h3>
-
-				<button id="edit-show" class="btn btn-info">
-	  			Favorite
-				</button>
-				`
-	}else{
-		return `<h1 data-id=${showData.dataset.id}>${showInfo.show.name}</h1>
-				<img src=${placeholder}>
-				<h3> - Season ${showInfo.season} - Episode ${showInfo.number}</h3>
-
-				<button id="edit-show" class="btn btn-info">
-	  			Favorite
-				</button>
-				`
-	}
-}
-			// <h3>${showInfo.tagline}</h3>
-			// <textarea>${showInfo.description}</textarea>
 
 
-function createShowNameItem(show){
-	// debugger
-	return `<li class="list-group-item" id=${show.id} data-id=${show.show.id}>${show.show.name}.s${show.season}.e${show.number}</li>`
-}
+
 
