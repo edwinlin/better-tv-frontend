@@ -207,5 +207,32 @@ function removeMondayToSaturdayLists(){
 		showDetailDiv.parentElement.style.display = "block"
 }
 
+// log in functions
+logInEvent();
+function logInEvent() {
+	const overlay = document.querySelector("#login");
+	overlay.addEventListener('click', handleLogin)
+}
 
+function handleLogin(event) {
+	event.preventDefault();
+	const target = event.target;
+	const username = document.querySelector('#login-id').value;
+
+	if (target.value === 'Login') {
+		logInUser(username);
+		console.log("adsda")
+		// document.querySelector('#container').remove();
+	}
+}
+
+function logInUser(username) {
+	return fetch('http://localhost:3000/users', {
+		method: 'POST',
+		header: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({name: username}) 
+	}).then(response => response.json());
+}
 
