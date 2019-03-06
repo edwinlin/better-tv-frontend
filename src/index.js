@@ -219,7 +219,7 @@ function handleLogin(event) {
 	const target = event.target;
 	const username = document.querySelector('#login-id').value;
 
-	if (target.value === 'Login') {
+	if (target.tagName === 'BUTTON') {
 		logInUser(username);
 		console.log(username)
 		document.querySelector('#container').remove();
