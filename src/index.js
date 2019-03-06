@@ -7,6 +7,7 @@ const wednesdayDate = DayOfWeek.toISOLocal(DayOfWeek.getWednesday(new Date()));
 const thursdayDate = DayOfWeek.toISOLocal(DayOfWeek.getThursday(new Date()));
 const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
 const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
+
 allShowsArray = []
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
 
@@ -27,7 +28,7 @@ listGroupUl7.addEventListener('click', handleItemClick);
 
 const showDetailDiv = document.getElementById('show-detail');
 showDetailDiv.addEventListener('click', handleDetailPatch);
-const getShowDetailsURL = `http://api.tvmaze.com/shows`;
+// const getShowDetailsURL = `http://api.tvmaze.com/shows`;
 
 // code ----------------------------->
 
@@ -83,9 +84,7 @@ Adapter.getSaturdayShows().then(json=>{
 
 
 // functions ----------------------------->
-// Date functions ^
 
-// __________________________________
 function patchshowDescription(event){
 	const patchObj = {
 		method: 'PATCH',
@@ -164,47 +163,4 @@ function createShowNameItem(show){
 	// debugger
 	return `<li class="list-group-item" id=${show.id} data-id=${show.show.id}>${show.show.name}.s${show.season}.e${show.number}</li>`
 }
-
-function getTodayShows(){
-	return fetch(`${getShowsURL}${todayFullDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getSundayShows(){
-	return fetch(`${getShowsURL}${sundayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getMondayShows(){
-	return fetch(`${getShowsURL}${mondayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getTuesdayShows(){
-	return fetch(`${getShowsURL}${tuesdayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getWednesdayShows(){
-	return fetch(`${getShowsURL}${wednesdayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getThursdayShows(){
-	return fetch(`${getShowsURL}${thursdayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getFridayShows(){
-	return fetch(`${getShowsURL}${fridayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-function getSaturdayShows(){
-	return fetch(`${getShowsURL}${saturdayDate}`).then(resp=>{
-		return resp.json()
-	})
-}
-
-
 
