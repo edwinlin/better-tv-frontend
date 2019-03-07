@@ -26,10 +26,10 @@ const listGroupUl7 = document.getElementById('saturday');
 listGroupUl7.addEventListener('click', handleItemClick);
 const dayHeaderRow = document.querySelector('.row.seven-cols');
 dayHeaderRow.addEventListener('click', handleColumnClick);
-
 const showDetailDiv = document.getElementById('show-detail');
-showDetailDiv.addEventListener('click', handleDetailPatch);
-// const getShowDetailsURL = `http://api.tvmaze.com/shows`;
+// showDetailDiv.addEventListener('click', handleDetailPatch);
+const showDetailParent = document.querySelector('.row')
+showDetailParent.addEventListener('click', handleFaveClick)
 allShows = {}
 // code ----------------------------->
 
@@ -101,6 +101,56 @@ Adapter.getSaturdayShows().then(json=>{
 
 
 // functions ----------------------------->
+function handleFaveClick(event){
+	event.preventDefault();
+	if(event.target.id == "edit-show"){
+			// debugger
+
+		console.log('hello')
+		//post show
+		postShowInfo(event).then(json=>{
+			console.log(json)
+			postUserShow(1, json.id).then(console.log)
+		})
+	}
+	if(event.target.id == "pic"){
+		console.log('pic')
+	}
+	// debugger
+}
+
+function postUserShow(userId, tvshowId){
+	const postUserShowObj = {
+		method: 'POST',
+		headers: {
+			'Content-Type':'application/json',
+			'Accept':'application/json'
+		},
+		body: JSON.stringify({
+			user_id: userId,
+			tvshow_id: tvshowId,
+		})
+	}
+	return fetch(`http://localhost:3000/user_shows`, postUserShowObj).then(resp=>resp.json())
+}
+
+function postShowInfo(event){
+	const showName = Show.all.find(show=>show.show.id==event.target.parentElement.children[0].dataset.id).show.name
+	const showId = parseInt(event.target.parentElement.children[0].dataset.id)
+	console.log(showId)
+	const postShowObj = {
+		method: 'POST',
+		headers: {
+			'Content-Type':'application/json',
+			'Accept':'application/json'
+		},
+		body: JSON.stringify({
+			name: showName,
+			tvmaze_id: showId,
+		})
+	}
+	return fetch(`http://localhost:3000/tvshows`, postShowObj).then(resp=>resp.json())
+}
 
 function patchshowDescription(event){
 	const patchObj = {
@@ -176,6 +226,8 @@ function handleItemClick(event){
 function displayDetails(targetId){
 	const showObj = Show.all.find(show=>show.id==targetId)
 	showDetailDiv.innerHTML = showObj.renderShowDetails()
+	// debugger
+
 }
 
 function displayLargerList(targetId){
@@ -207,5 +259,32 @@ function removeMondayToSaturdayLists(){
 		showDetailDiv.parentElement.style.display = "block"
 }
 
+// log in functions
+logInEvent();
+function logInEvent() {
+	const overlay = document.querySelector("#login");
+	overlay.addEventListener('click', handleLogin)
+}
 
+function handleLogin(event) {
+	event.preventDefault();
+	const target = event.target;
+	const username = document.querySelector('#login-id').value;
+
+	if (target.tagName === 'BUTTON') {
+		logInUser(username).then(json=>console.log(json));
+		// console.log(username)
+		document.querySelector('#container').remove();
+	}
+}
+
+function logInUser(username) {
+	return fetch('http://localhost:3000/users', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({name: username}) 
+	}).then(response => response.json());
+}
 
