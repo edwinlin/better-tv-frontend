@@ -110,7 +110,7 @@ function handleFaveClick(event){
 		//post show
 		postShowInfo(event).then(json=>{
 			console.log(json)
-			postUserShow(1, json.id).then(console.log)
+			postUserShow(userId, json.id).then(json=> console.log(`Signed in as user ${json.name}`))
 		})
 	}
 	if(event.target.id == "pic"){
@@ -271,8 +271,9 @@ function handleLogin(event) {
 	const target = event.target;
 	const username = document.querySelector('#login-id').value;
 
+// using global 
 	if (target.tagName === 'BUTTON') {
-		logInUser(username).then(json=>console.log(json));
+		logInUser(username).then(json=> userId = json.id);
 		// console.log(username)
 		document.querySelector('#container').remove();
 	}
