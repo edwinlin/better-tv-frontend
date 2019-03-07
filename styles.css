@@ -39,6 +39,11 @@
   width: all;
 }
 
+#show-detail{
+    position: absolute;
+
+}
+
 @media (max-width: 767px){
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,

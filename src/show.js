@@ -23,7 +23,7 @@ class Show{
 		const placeholder = 'https://www.l-nutra.com/wp-content/uploads/2018/07/placeholder.png'
 		if(imageToUse != null){
 			return `<h1 data-id=${this.show.id}>${this.show.name}</h1>
-					<img src=${imageToUse.original}>
+					<img id="pic" src=${imageToUse.original}>
 					<h3> - Season ${this.season} - Episode ${this.number}</h3>
 
 					<button id="edit-show" class="btn btn-info">
