@@ -16,6 +16,9 @@ class Show{
     renderNameItem(indexId){
 		return `<li class="list-group-item" id=${this.id} data-id=${this.show.id} data-index-id=${indexId}>${this.show.name}.s${this.season}.e${this.number}</li>`
 	}
+	renderFaveItem(indexId){
+		return `<li style="background-color: red" class="list-group-item" id=${this.id} data-id=${this.show.id} data-index-id=${indexId}>${this.show.name}.s${this.season}.e${this.number}</li>`
+	}
 
 
 	renderShowDetails(){

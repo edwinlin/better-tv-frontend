@@ -9,6 +9,7 @@ const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
 const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
 tempFlag = "undefined"
 getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
+userId = ""
 
 const listGroupUl = document.getElementById('sunday');
 listGroupUl.addEventListener('click', handleItemClick);
@@ -36,13 +37,10 @@ allShows = {}
 Adapter.getSundayShows().then(json=>{
 	sundayShowsArray = json
 	allShows.sunday = sundayShowsArray
-	json.forEach(show=>{
-		// debugger
-		let showObj = new Show(show)
-		listGroupUl.innerHTML += showObj.renderNameItem(listGroupUl.parentElement.id)
-		// debugger
-		// listGroupUl.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl.innerHTML += showObj.renderNameItem(listGroupUl.parentElement.id)
+	// })
 }) //end getSundayShows
 Adapter.getMondayShows().then(json=>{
 	mondayShowsArray = json
@@ -110,7 +108,7 @@ function handleFaveClick(event){
 		//post show
 		postShowInfo(event).then(json=>{
 			console.log(json)
-			postUserShow(userId, json.id).then(json=> console.log(`Signed in as user ${json.name}`))
+			postUserShow(userId, json.id, json.tvmaze_id).then(json=> console.log(json))
 		})
 	}
 	if(event.target.id == "pic"){
@@ -119,7 +117,7 @@ function handleFaveClick(event){
 	// debugger
 }
 
-function postUserShow(userId, tvshowId){
+function postUserShow(userId, tvshowId, tvmazeId){
 	const postUserShowObj = {
 		method: 'POST',
 		headers: {
@@ -129,6 +127,7 @@ function postUserShow(userId, tvshowId){
 		body: JSON.stringify({
 			user_id: userId,
 			tvshow_id: tvshowId,
+			ext_tvmaze_id: tvmazeId
 		})
 	}
 	return fetch(`http://localhost:3000/user_shows`, postUserShowObj).then(resp=>resp.json())
@@ -271,9 +270,37 @@ function handleLogin(event) {
 	const target = event.target;
 	const username = document.querySelector('#login-id').value;
 
+
+
+
 // using global 
 	if (target.tagName === 'BUTTON') {
-		logInUser(username).then(json=> userId = json.id);
+		logInUser(username).then(json=> {
+			userId = json.id
+
+			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			.then(json=>{
+				newVar = (json.filter(userShow=>userShow.user_id==userId))
+				let nvar = newVar.map(nvar=>{
+					return nvar.ext_tvmaze_id;
+				})
+				let others = '';
+				allShows.sunday.forEach(sundayShow=>{
+
+					if (nvar.includes(sundayShow.show.id)){
+						let showObj = new Show(sundayShow)
+						listGroupUl.innerHTML += showObj.renderFaveItem(listGroupUl.parentElement.id)
+					} else {
+						let showObj = new Show(sundayShow)
+						others += showObj.renderNameItem(listGroupUl.parentElement.id)
+					}
+				})
+				listGroupUl.innerHTML += others;
+
+
+			})
+
+		});
 		// console.log(username)
 		document.querySelector('#container').remove();
 	}
