@@ -221,7 +221,18 @@ function handleColumnClick(event){
 		dayHeaderRow.children[tempFlag].style.backgroundImage = "linear-gradient(-225deg, #E3FDF5 20%, #FFE6FA 50%)";
 		dayHeaderRow.children[tempFlag].style.borderRadius = "10px";
 
-		displayLargerList(event.target.dataset.dayId)
+		// displayLargerList(event.target.dataset.dayId)
+			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			.then(json=>{
+				newVar = (json.filter(userShow=>userShow.user_id==userId))
+				let nvar = newVar.map(nvar=>{
+					return nvar.ext_tvmaze_id;
+				})
+				listGroupUl.innerHTML = ""
+
+			renderFaves(allShows[event.target.dataset.dayId], listGroupUl, nvar )
+		})
+
 	}
 
 }
