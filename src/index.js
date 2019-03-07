@@ -195,7 +195,8 @@ function handleColumnClick(event){
 	event.preventDefault();
 		if((listGroupUl2.style.display != "none")&&(tempFlag == "undefined")){
 		tempFlag = event.target.id
-		dayHeaderRow.children[tempFlag].style.backgroundColor = "gray"
+		dayHeaderRow.children[tempFlag].style.backgroundImage = "linear-gradient(-225deg, #E3FDF5 20%, #FFE6FA 50%)";
+		dayHeaderRow.children[tempFlag].style.borderRadius = "10px";
 				removeMondayToSaturdayLists()
 				// displayLargerList(event.target.dataset.dayId)
 			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
@@ -215,9 +216,10 @@ function handleColumnClick(event){
 	}
 
 	if((["0","1","2","3","4","5","6"].includes(event.target.id))&&(tempFlag!="undefined")&&(event.target.id != tempFlag)){
-		dayHeaderRow.children[tempFlag].style.backgroundColor = ""
+		dayHeaderRow.children[tempFlag].style.backgroundImage = ""
 		tempFlag = event.target.id
-		dayHeaderRow.children[tempFlag].style.backgroundColor = "gray"
+		dayHeaderRow.children[tempFlag].style.backgroundImage = "linear-gradient(-225deg, #E3FDF5 20%, #FFE6FA 50%)";
+		dayHeaderRow.children[tempFlag].style.borderRadius = "10px";
 
 		displayLargerList(event.target.dataset.dayId)
 	}
@@ -271,7 +273,7 @@ function displayLargerList(targetId){
 } //targetId is day string
 
 function highlightDayOfWeekTab(event){
-	event.target.parentElement.parentElement.style.backgroundColor = "gray"
+	event.target.parentElement.parentElement.style.backgroundImage = "linear-gradient(-225deg, #E3FDF5 20%, #FFE6FA 50%)";
 	// const divBar = document.createElement('div')
 	// debugger
 	// divBar.style.width = "100%"
@@ -376,3 +378,27 @@ function logInUser(username) {
 	}).then(response => response.json());
 }
 
+
+// --------------WINDOW RESIZE ------------------------- //
+let rows = document.querySelector(".row.seven-cols")
+// rows.querySelector("[data-day-id='sunday']")
+// rows.querySelector("[data-day-id='tuesday']").firstElementChild.innerText
+window.addEventListener('resize', week);
+document.addEventListener('DOMContentLoaded', week);
+
+function week(event){
+  let weekH3 = rows.querySelectorAll("[data-day-id] h3")
+	if (window.innerWidth < 822){
+    weekH3.forEach(function(element){
+      element.innerText = element.innerText[0];
+    })
+	} else {
+    weekH3[0].innerText = "Sunday";
+    weekH3[1].innerText = "Monday";
+    weekH3[2].innerText = "Tuesday";
+    weekH3[3].innerText = "Wednesday";
+    weekH3[4].innerText = "Thursday";
+    weekH3[5].innerText = "Friday";
+    weekH3[6].innerText = "Saturday";
+	}
+}
