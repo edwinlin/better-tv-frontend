@@ -31,6 +31,15 @@ const showDetailDiv = document.getElementById('show-detail');
 // showDetailDiv.addEventListener('click', handleDetailPatch);
 const showDetailParent = document.querySelector('.row')
 showDetailParent.addEventListener('click', handleFaveClick)
+listGroups = {
+			sunday: listGroupUl, 
+			monday: listGroupUl2, 
+			tuesday: listGroupUl3, 
+			wednesday:listGroupUl4, 
+			thursday: listGroupUl5, 
+			friday: listGroupUl6, 
+			saturday: listGroupUl7
+		}
 allShows = {}
 // code ----------------------------->
 
@@ -45,56 +54,56 @@ Adapter.getSundayShows().then(json=>{
 Adapter.getMondayShows().then(json=>{
 	mondayShowsArray = json
 	allShows.monday = mondayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl2.innerHTML += showObj.renderNameItem(listGroupUl2.parentElement.id)
-		// listGroupUl2.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	// let showObj = new Show(show)
+	// 	// listGroupUl2.innerHTML += showObj.renderNameItem(listGroupUl2.parentElement.id)
+	// 	// listGroupUl2.innerHTML += createShowNameItem(show)
+	// })
 }) //end getMondayShows
 Adapter.getTuesdayShows().then(json=>{
 	tuesdayShowsArray = json
 	allShows.tuesday = tuesdayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl3.innerHTML += showObj.renderNameItem(listGroupUl3.parentElement.id)
-		// listGroupUl3.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl3.innerHTML += showObj.renderNameItem(listGroupUl3.parentElement.id)
+	// 	// listGroupUl3.innerHTML += createShowNameItem(show)
+	// })
 }) //end getTuesdayShows
 Adapter.getWednesdayShows().then(json=>{
 	wednesdayShowsArray = json
 	allShows.wednesday = wednesdayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl4.innerHTML += showObj.renderNameItem(listGroupUl4.parentElement.id)
-		// listGroupUl4.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl4.innerHTML += showObj.renderNameItem(listGroupUl4.parentElement.id)
+	// 	// listGroupUl4.innerHTML += createShowNameItem(show)
+	// })
 }) //end getWednesdayShows
 Adapter.getThursdayShows().then(json=>{
 	thursdayShowsArray = json
 	allShows.thursday = thursdayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl5.innerHTML += showObj.renderNameItem(listGroupUl5.parentElement.id)
-		// listGroupUl5.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl5.innerHTML += showObj.renderNameItem(listGroupUl5.parentElement.id)
+	// 	// listGroupUl5.innerHTML += createShowNameItem(show)
+	// })
 }) //end getThursdayShows
 Adapter.getFridayShows().then(json=>{
 	fridayShowsArray = json
 	allShows.friday = fridayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl6.innerHTML += showObj.renderNameItem(listGroupUl6.parentElement.id)
-		// listGroupUl6.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl6.innerHTML += showObj.renderNameItem(listGroupUl6.parentElement.id)
+	// 	// listGroupUl6.innerHTML += createShowNameItem(show)
+	// })
 }) //end getFridayShows
 Adapter.getSaturdayShows().then(json=>{
 	saturdayShowsArray = json
 	allShows.saturday = saturdayShowsArray
-	json.forEach(show=>{
-		let showObj = new Show(show)
-		listGroupUl7.innerHTML += showObj.renderNameItem(listGroupUl7.parentElement.id)
-		// listGroupUl7.innerHTML += createShowNameItem(show)
-	})
+	// json.forEach(show=>{
+	// 	let showObj = new Show(show)
+	// 	listGroupUl7.innerHTML += showObj.renderNameItem(listGroupUl7.parentElement.id)
+	// 	// listGroupUl7.innerHTML += createShowNameItem(show)
+	// })
 }) //end getSaturdayShows
 
 
@@ -188,7 +197,20 @@ function handleColumnClick(event){
 		tempFlag = event.target.id
 		dayHeaderRow.children[tempFlag].style.backgroundColor = "gray"
 				removeMondayToSaturdayLists()
-				displayLargerList(event.target.dataset.dayId)
+				// displayLargerList(event.target.dataset.dayId)
+			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			.then(json=>{
+				newVar = (json.filter(userShow=>userShow.user_id==userId))
+				let nvar = newVar.map(nvar=>{
+					return nvar.ext_tvmaze_id;
+				})
+				console.log(event.target.dataset.dayId)
+				// debugger
+				listGroupUl.innerHTML = ""
+				renderFaves(allShows[event.target.dataset.dayId], listGroupUl, nvar )
+
+
+})
 				displayDetails(allShows[event.target.dataset.dayId][0].id)
 	}
 
@@ -216,9 +238,19 @@ function handleItemClick(event){
 		highlightDayOfWeekTab(event)
 	}else{
 		removeMondayToSaturdayLists()
-		displayLargerList(event.target.parentElement.id)
+		// displayLargerList(event.target.parentElement.id)
+					fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			.then(json=>{
+				newVar = (json.filter(userShow=>userShow.user_id==userId))
+				let nvar = newVar.map(nvar=>{
+					return nvar.ext_tvmaze_id;
+				})
+				// debugger
+		listGroupUl.innerHTML = ""
+		renderFaves(allShows[event.target.parentElement.id], listGroupUl, nvar)
+	})
 		displayDetails(event.target.id)
-		highlightDayOfWeekTab(event)
+		// highlightDayOfWeekTab(event)
 	}
 }
 
@@ -230,12 +262,13 @@ function displayDetails(targetId){
 }
 
 function displayLargerList(targetId){
+	// debugger
 		listGroupUl.innerHTML = ""
 		allShows[targetId].forEach(show=>{
 			let showObj = new Show(show)
 			listGroupUl.innerHTML += showObj.renderNameItem()
 		})
-}
+} //targetId is day string
 
 function highlightDayOfWeekTab(event){
 	event.target.parentElement.parentElement.style.backgroundColor = "gray"
@@ -284,18 +317,31 @@ function handleLogin(event) {
 				let nvar = newVar.map(nvar=>{
 					return nvar.ext_tvmaze_id;
 				})
-				let others = '';
-				allShows.sunday.forEach(sundayShow=>{
+				// let others = '';
+				// for (const day in allShows) {
+				// 	renderFaves(day);
+				// }
+				// allShows.forEach(day => {
+					renderFaves(allShows.sunday, listGroupUl, nvar);
+					renderFaves(allShows.monday, listGroupUl2, nvar);
+					renderFaves(allShows.tuesday, listGroupUl3, nvar);
+					renderFaves(allShows.wednesday, listGroupUl4, nvar);
+					renderFaves(allShows.thursday, listGroupUl5, nvar);
+					renderFaves(allShows.friday, listGroupUl6, nvar);
+					renderFaves(allShows.saturday, listGroupUl7, nvar);
 
-					if (nvar.includes(sundayShow.show.id)){
-						let showObj = new Show(sundayShow)
-						listGroupUl.innerHTML += showObj.renderFaveItem(listGroupUl.parentElement.id)
-					} else {
-						let showObj = new Show(sundayShow)
-						others += showObj.renderNameItem(listGroupUl.parentElement.id)
-					}
-				})
-				listGroupUl.innerHTML += others;
+				// })
+				// allShows.sunday.forEach(sundayShow=>{
+
+				// 	if (nvar.includes(sundayShow.show.id)){
+				// 		let showObj = new Show(sundayShow)
+				// 		listGroupUl.innerHTML += showObj.renderFaveItem(listGroupUl.parentElement.id)
+				// 	} else {
+				// 		let showObj = new Show(sundayShow)
+				// 		others += showObj.renderNameItem(listGroupUl.parentElement.id)
+				// 	}
+				// })
+				// listGroupUl.innerHTML += others;
 
 
 			})
@@ -304,6 +350,20 @@ function handleLogin(event) {
 		// console.log(username)
 		document.querySelector('#container').remove();
 	}
+}
+
+function renderFaves(dayArr, listGroup, nvar) {
+	let others = '';
+	dayArr.forEach(show => {
+			let showObj = new Show(show)
+
+		if (nvar.includes(show.show.id)){
+			listGroup.innerHTML += showObj.renderFaveItem(listGroup.parentElement.id)
+		} else {
+			others += showObj.renderNameItem(listGroup.parentElement.id)
+		}
+	})
+	listGroup.innerHTML += others;
 }
 
 function logInUser(username) {
