@@ -425,7 +425,7 @@ function handleLogin(event) {
 		logInUser(username).then(json=> {
 			userId = json.id
 
-			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 			.then(json=>{
 				newVar = (json.filter(userShow=>userShow.user_id==userId))
 				let nvar = newVar.map(nvar=>{
