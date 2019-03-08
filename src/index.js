@@ -144,7 +144,7 @@ Adapter.getSaturdayShows().then(json=>{
 
 function handleAllListings(event){
 	event.preventDefault();
-		fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+		fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 			.then(json=>{
 				
 			dayTabs.forEach(tab=>{
@@ -175,7 +175,7 @@ function handleAllListings(event){
 
 function handleDeleteClick(event){
 	// debugger
-	fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+	fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 			.then(json=>{
 				myUserShows = (json.filter(userShow=>userShow.user_id==userId))
 					let myTvmazeIds = myUserShows.map(nvar=>{
@@ -196,7 +196,7 @@ function handleDeleteClick(event){
 }
 
 function deleteRerender(event){
-	fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+	fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 		.then(json=>{
 			newVar = (json.filter(userShow=>userShow.user_id==userId))
 			let nvar = newVar.map(nvar=>{
@@ -215,7 +215,7 @@ function postDeleteRequest(id){
 			'Accept':'application/json'
 		}
 	}
-	return fetch(`http://localhost:3000/user_shows/${id}`, deleteObj).then(resp=>resp.json())
+	return fetch(`https://bettertv.herokuapp.com/user_shows/${id}`, deleteObj).then(resp=>resp.json())
 }
 
 function highlightDayOfWeekTab(event){
@@ -249,7 +249,7 @@ function handleItemClick(event){
 		}else{
 			removeMondayToSaturdayLists()
 			// displayLargerList(event.target.parentElement.id)
-			fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+			fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 				.then(json=>{
 					newVar = (json.filter(userShow=>userShow.user_id==userId))
 					let nvar = newVar.map(nvar=>{
@@ -291,7 +291,7 @@ function handleTabClick(event){
 }
 
 function getPreferenceAndRenderList(event){
-	fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+	fetch(`https://bettertv.herokuapp.com/user_shows`).then(resp=>resp.json())
 			.then(json=>{
 				newVar = (json.filter(userShow=>userShow.user_id==userId))
 				let nvar = newVar.map(nvar=>{
@@ -309,7 +309,7 @@ function handleFaveClick(event){
 		postShowInfo(event).then(json=>{
 			console.log(json)
 			postUserShow(userId, json.id, json.tvmaze_id).then(json2=> {
-				fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
+				fetch(`https://bettertv.herokuapp.com/`).then(resp=>resp.json())
 				.then(json3=>{
 					newVar = (json3.filter(userShow=>userShow.user_id==userId))
 						nvar = newVar.map(nvar=>{
@@ -339,7 +339,7 @@ function postUserShow(userId, tvshowId, tvmazeId){
 			ext_tvmaze_id: tvmazeId
 		})
 	}
-	return fetch(`http://localhost:3000/user_shows`, postUserShowObj).then(resp=>resp.json())
+	return fetch(`https://bettertv.herokuapp.com/user_shows`, postUserShowObj).then(resp=>resp.json())
 }
 
 function postShowInfo(event){
@@ -359,7 +359,7 @@ function postShowInfo(event){
 			tvmaze_id: showId,
 		})
 	}
-	return fetch(`http://localhost:3000/tvshows`, postShowObj).then(resp=>resp.json())
+	return fetch(`https://bettertv.herokuapp.com/tvshows`, postShowObj).then(resp=>resp.json())
 }
 
 
@@ -459,7 +459,7 @@ function renderFaves(dayArr, listGroup, nvar, dayString) {
 }
 
 function logInUser(username) {
-	return fetch('http://localhost:3000/users', {
+	return fetch('https://bettertv.herokuapp.com/users', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
