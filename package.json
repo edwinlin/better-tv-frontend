@@ -1,0 +1,6 @@
+"homepage": "https://bettertv.herokuapp.com/",
+"scripts": {
+  [...]
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}
