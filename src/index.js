@@ -8,7 +8,7 @@ const thursdayDate = DayOfWeek.toISOLocal(DayOfWeek.getThursday(new Date()));
 const fridayDate = DayOfWeek.toISOLocal(DayOfWeek.getFriday(new Date()));
 const saturdayDate = DayOfWeek.toISOLocal(DayOfWeek.getSaturday(new Date()));
 tempFlag = "undefined"
-getShowsURL = `http://api.tvmaze.com/schedule?country=US&date=`
+getShowsURL = `https://api.tvmaze.com/schedule?country=US&date=`
 userId = ""
 tempDay = "undefined"
 const daysOfWeek = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"]
