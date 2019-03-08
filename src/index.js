@@ -146,6 +146,10 @@ function handleAllListings(event){
 	event.preventDefault();
 		fetch(`http://localhost:3000/user_shows`).then(resp=>resp.json())
 			.then(json=>{
+				
+			dayTabs.forEach(tab=>{
+				tab.style.backgroundImage = ""
+			}) 
 
 			returnMondayToSaturdayLists()
 			let newVar = (json.filter(userShow=>userShow.user_id==userId))
